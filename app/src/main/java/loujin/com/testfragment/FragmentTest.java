@@ -9,6 +9,8 @@ import android.widget.TextView;
 import fragments.FragmentOne;
 
 /**
+ * http://www.yrom.net/blog/2013/03/10/fragment-switch-not-restart/
+ * http://developer.android.com/intl/zh-cn/guide/components/fragments.html
  * Created by jin on 2016.03.20.
  */
 public class FragmentTest extends AppCompatActivity {

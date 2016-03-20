@@ -1,6 +1,8 @@
 package loujin.com.testfragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,19 +22,21 @@ public class FragmentTest extends AppCompatActivity {
     private TextView textCompany;
     private TextView textDept;
 
+    private Fragment mContent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_test);
         frameLayout = (FrameLayout) findViewById(R.id.content);
-        textContact = (TextView)findViewById(R.id.textContact);
-        textCompany = (TextView)findViewById(R.id.textCompany);
-        textDept = (TextView)findViewById(R.id.textDept);
+        textContact = (TextView) findViewById(R.id.textContact);
+        textCompany = (TextView) findViewById(R.id.textCompany);
+        textDept = (TextView) findViewById(R.id.textDept);
         if (frameLayout == null) {
             if (savedInstanceState != null) {
                 return;
             }
-            getSupportFragmentManager().beginTransaction().add(R.id.content,new FragmentOne()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.content, new FragmentOne()).commit();
         }
 
         textContact.setOnClickListener(new View.OnClickListener() {
@@ -55,5 +59,17 @@ public class FragmentTest extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void switchContent(Fragment from, Fragment to) {
+        if (mContent != to) {
+            mContent = to;
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            if (!to.isAdded()) {    // 先判断是否被add过
+                transaction.hide(from).add(R.id.content, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            } else {
+                transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
+            }
+        }
     }
 }
